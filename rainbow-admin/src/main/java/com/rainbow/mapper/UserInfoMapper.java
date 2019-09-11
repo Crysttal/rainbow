@@ -1,12 +1,11 @@
 package com.rainbow.mapper;
 
-import java.util.List;
-
+import com.rainbow.mapper.base.UserInfoBaseMapper;
 import com.rainbow.model.dto.ExportUserInfoDTO;
 import com.rainbow.model.vo.ExportUserInfoVO;
-import org.apache.ibatis.annotations.Param;
-import com.rainbow.model.entity.UserInfo;
-import com.rainbow.mapper.base.UserInfoBaseMapper;
+import com.rainbow.model.vo.UserInfoEntity;
+
+import java.util.List;
 /**
 *  @author author
 */
@@ -19,4 +18,11 @@ public interface UserInfoMapper extends UserInfoBaseMapper{
      * @return
      */
     List<ExportUserInfoVO> export(ExportUserInfoDTO dto);
+
+    /**
+     * 导入用户信息入库
+     * @param list
+     * @return
+     */
+    int importUserInfo(List<UserInfoEntity> list);
 }

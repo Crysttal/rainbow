@@ -1,5 +1,6 @@
 package com.rainbow.listener;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.google.common.collect.Lists;
@@ -33,11 +34,16 @@ public class UserInfoListener extends AnalysisEventListener<UserInfoEntity> {
         log.info("UserInfoListener_invoke_currentRowNum={}", analysisContext.getCurrentRowNum());
 
         //添加表头行
+        userInfoEntity.setCurrentRow(analysisContext.getCurrentRowNum()+1);
 
+        //处理数据
+        if(!BeanUtil.isEmpty(userInfoEntity)){
+            userInfoList.get().add(userInfoEntity);
+        }
     }
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-
+        log.info("UserInfoListener_doAfterAllAnalysed_totalCount={}", analysisContext.getTotalCount());
     }
 }

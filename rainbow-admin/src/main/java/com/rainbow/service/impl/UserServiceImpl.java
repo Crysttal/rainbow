@@ -4,14 +4,18 @@ package com.rainbow.service.impl;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
 import com.rainbow.common.exception.ExcelException;
+import com.rainbow.common.exception.ServerException;
+import com.rainbow.enums.ResultCodeEnum;
 import com.rainbow.mapper.UserInfoMapper;
 import com.rainbow.model.dto.ExportUserInfoDTO;
 import com.rainbow.model.dto.InsertDTO;
 import com.rainbow.model.entity.UserInfo;
 import com.rainbow.model.vo.ExportUserInfoVO;
+import com.rainbow.model.vo.UserInfoEntity;
 import com.rainbow.service.UserService;
 import com.rainbow.util.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +47,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void importUserInfo(MultipartFile file) {
+    public void importUserInfo(MultipartFile file) throws ExcelException {
+
+        //解析数据
+        List<UserInfoEntity> list = ExcelUtil.readExcel(file, UserInfoEntity.class, 1, 1);
+        log.info("解析数据:UserServiceImpl_readExcel_list={}", JSON.toJSONString(list));
+        if (CollectionUtils.isEmpty(list)){
+            throw new ServerException(ResultCodeEnum.FAILED);
+        }
+
+        //TODO 校验数据
+        //数据入库
+        int result = userInfoMapper.importUserInfo(list);
 
     }
 

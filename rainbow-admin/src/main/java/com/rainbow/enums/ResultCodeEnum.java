@@ -12,6 +12,7 @@ import java.util.List;
 public enum  ResultCodeEnum {
 
     SUCCESS("000000","成功"),
+    FAILED("999999","失败")
         ;
 
     private String code;
